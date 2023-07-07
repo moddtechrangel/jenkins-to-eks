@@ -1,7 +1,8 @@
 data "aws_availability_zones" "azs" {}
 module "myapp-vpc" {
   source          = "terraform-aws-modules/vpc/aws"
-  version         = "3.19.0"
+#  version         = "3.19.0"
+  version         = "4.67.0"
   name            = "myapp-vpc"
   cidr            = var.vpc_cidr_block
   private_subnets = var.private_subnet_cidr_blocks
@@ -11,6 +12,7 @@ module "myapp-vpc" {
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
+  reuse_nat_ips        = true
 
   tags = {
     "kubernetes.io/cluster/myapp-eks-cluster" = "shared"
