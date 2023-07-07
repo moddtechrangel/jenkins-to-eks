@@ -12,7 +12,7 @@ module "myapp-vpc" {
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
-  reuse_nat_ips        = true
+#  reuse_nat_ips        = true
 
   tags = {
     "kubernetes.io/cluster/myapp-eks-cluster" = "shared"
