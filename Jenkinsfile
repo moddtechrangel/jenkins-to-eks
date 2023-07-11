@@ -13,7 +13,7 @@ pipeline {
                     dir('terraform') {
                         sh "pwd"
                         sh "terraform init"
-                        sh "terraform plan" 
+                        sh "terraform plan -out=plan.out" 
                         sh "terraform apply -auto-approve"
                     }
                 }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     dir('kubernetes') {
-                        sh "aws eks update-kubeconfig --name poc-eks-cluster"
+                        sh "aws eks update-kubeconfig --name poc2-eks-cluster"
                         #sh "kubectl apply -f nginx-deployment.yaml"
                         #sh "kubectl apply -f nginx-service.yaml"
                     }
