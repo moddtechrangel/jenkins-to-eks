@@ -15,16 +15,16 @@ module "myapp-vpc" {
 #  reuse_nat_ips        = true
 
   tags = {
-    "kubernetes.io/cluster/myapp-eks-cluster" = "shared"
+    "kubernetes.io/cluster/poc-eks-cluster" = "shared"
   }
 
   public_subnet_tags = {
-    "kubernetes.io/cluster/myapp-eks-cluster" = "shared"
+    "kubernetes.io/cluster/poc-eks-cluster" = "shared"
     "kubernetes.io/role/elb"                  = 1
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/myapp-eks-cluster" = "shared"
+    "kubernetes.io/cluster/poc-eks-cluster" = "shared"
     "kubernetes.io/role/internal-elb"         = 1
   }
 }
