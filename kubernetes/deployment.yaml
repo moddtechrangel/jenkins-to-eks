@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: invokeai
-          image: rangelmoddtech/iai:v1
+          image: rangelmoddtech/iai:latest
           ports:
             - containerPort: 8000
           env:

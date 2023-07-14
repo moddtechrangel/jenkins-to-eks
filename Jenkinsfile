@@ -22,7 +22,7 @@ pipeline {
         stage("Build InvokeAI Image") {
             steps {
                 git clone https://github.com/invoke-ai/InvokeAI
-                sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:v1 .
+                sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest .
             }
         }
         stage('Push to DHub'){
@@ -38,7 +38,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'DockerPss', passwordVariable: 'dockerHubPassword', usernameVariable: 'rangelmoddtech')]) {
                     dir('kubernetes') {
                         sh "aws eks update-kubeconfig --name poc2-eks-cluster"
-                        sh "kubectl create secret docker-registry regcred --docker-server=docker.io/rangelmoddtech/iai:v1 --docker-username=${env.dockerHubUser} --docker-password=${env.dockerHubPassword}"
+                        sh "kubectl create secret docker-registry regcred --docker-server=docker.io/rangelmoddtech/iai:latest --docker-username=${env.dockerHubUser} --docker-password=${env.dockerHubPassword}"
                         sh "kubectl apply -f deployment.yaml"
                         #sh "kubectl apply -f nginx-deployment.yaml"
                         #sh "kubectl apply -f nginx-service.yaml"
