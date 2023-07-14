@@ -16,10 +16,10 @@ spec:
         - name: invokeai
           image: rangelmoddtech/iai:latest
           ports:
-            - containerPort: 8000
+            - containerPort: 9090
           env:
             - name: PORT
-              value: "8000"
+              value: "9090"
       imagePullSecrets:
         - name: regcred
 ---
@@ -31,6 +31,6 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: 8000
+      targetPort: 9090
   selector:
     app: invokeai
