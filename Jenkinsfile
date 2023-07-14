@@ -38,7 +38,7 @@ pipeline {
         stage('Push to Docker Hub'){
             steps{
                 withCredentials([string(credentialsId: 'DockerPss', variable: 'dockerHubPassword')]) {
-        	    sh "sudo docker login -u rangelmoddtech -p ${env.dockerHubPassword}"
+        	    sh "echo '${env.dockerHubPassword}' | sudo docker login -u rangelmoddtech --password-stdin"
                     sh 'sudo docker push rangelmoddtech/iai:latest'
                 }
             }
