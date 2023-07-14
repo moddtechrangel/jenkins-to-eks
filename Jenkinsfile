@@ -23,15 +23,15 @@ pipeline {
             steps {
                 script {
                     sh "git clone https://github.com/invoke-ai/InvokeAI"
-                    sh "DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
+                    sh "sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
                 }
             }
         }
         stage('Push to DHub'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'DockerPss', passwordVariable: 'dockerHubPassword', usernameVariable: 'rangelmoddtech')]) {
-        	    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh 'docker push rangelmoddtech/iai:latest'
+        	    sh "sudo docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'sudo docker push rangelmoddtech/iai:latest'
                 }
             }
         }
