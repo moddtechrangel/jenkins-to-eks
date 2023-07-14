@@ -37,18 +37,18 @@ pipeline {
         }
         stage('Push to Docker Hub'){
             steps{
-                withCredentials([usernamePassword(credentialsId: 'DockerPss', passwordVariable: 'dockerHubPassword', usernameVariable: 'rangelmoddtech')]) {
-        	    sh "sudo docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                withCredentials([string(credentialsId: 'DockerPss', variable: 'dockerHubPassword')]) {
+        	    sh "sudo docker login -u rangelmoddtech -p ${env.dockerHubPassword}"
                     sh 'sudo docker push rangelmoddtech/iai:latest'
                 }
             }
         }
         stage("Deploy to EKS") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'DockerPss', passwordVariable: 'dockerHubPassword', usernameVariable: 'rangelmoddtech')]) {
+                withCredentials([string(credentialsId: 'DockerPss', variable: 'dockerHubPassword')]) {
                     dir('kubernetes') {
                         sh "aws eks update-kubeconfig --name poc2-eks-cluster"
-                        sh "kubectl create secret docker-registry regcred --docker-server=docker.io/rangelmoddtech/iai --docker-username=${env.dockerHubUser} --docker-password=${env.dockerHubPassword}"
+                        sh "kubectl create secret docker-registry regcred --docker-server=docker.io/rangelmoddtech/iai --docker-username=rangelmoddtech --docker-password=${env.dockerHubPassword}"
                         sh "kubectl apply -f deployment.yaml"
 //                        sh "kubectl apply -f nginx-deployment.yaml"
 //                        sh "kubectl apply -f nginx-service.yaml"
