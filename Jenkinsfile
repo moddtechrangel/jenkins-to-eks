@@ -21,8 +21,10 @@ pipeline {
 //        }
         stage("Build InvokeAI Image") {
             steps {
-                git clone https://github.com/invoke-ai/InvokeAI
-                sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest .
+                script {
+                    sh "git clone https://github.com/invoke-ai/InvokeAI"
+                    sh "sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
+                }
             }
         }
         stage('Push to DHub'){
