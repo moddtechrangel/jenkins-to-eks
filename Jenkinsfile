@@ -19,16 +19,23 @@ pipeline {
 //                }
 //            }
 //        }
-        stage("Build InvokeAI Image") {
+        stage("Download repo InvokeAI") {
             steps {
                 script {
                     sh "git clone https://github.com/invoke-ai/InvokeAI"
-                    sh "cd InvokeAI"
-                    sh "sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
                 }
             }
         }
-        stage('Push to DHub'){
+        stage("Build app") {
+            steps {
+                script {
+                    dir('InvokeAI') {
+                    sh "sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
+                   }
+                }
+            }
+        }
+        stage('Push to Docker Hub'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'DockerPss', passwordVariable: 'dockerHubPassword', usernameVariable: 'rangelmoddtech')]) {
         	    sh "sudo docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
