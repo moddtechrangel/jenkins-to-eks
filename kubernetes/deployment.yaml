@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invokeai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: invokeai
+  template:
+    metadata:
+      labels:
+        app: invokeai
+    spec:
+      containers:
+        - name: invokeai
+          image: rangelmoddtech/iai:v1
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invokeai
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+  selector:
+    app: invokeai
