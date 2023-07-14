@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     sh "git clone https://github.com/invoke-ai/InvokeAI"
-                    sh "sudo DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
+                    sh "DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile -t rangelmoddtech/iai:latest ."
                 }
             }
         }
